@@ -22,7 +22,7 @@ pkgname=('php'
          'php-sqlite'
          'php-tidy'
          'php-xsl')
-pkgver=7.1.8
+pkgver=7.1.9
 pkgrel=2
 arch=(x86_64)
 license=('PHP')
@@ -32,10 +32,10 @@ makedepends=('apache' 'aspell' 'c-client' 'db' 'enchant' 'gd' 'gmp' 'icu' 'libmc
 checkdepends=('procps-ng')
 source=("https://php.net/distributions/${pkgbase}-${pkgver}.tar.xz"
         'apache.patch' 'apache.conf' 'php-fpm.patch' 'php-fpm.tmpfiles' 'php.ini.patch')
-sha256sums=('8943858738604acb33ecedb865d6c4051eeffe4e2d06f3a3c8f794daccaa2aab'
+sha256sums=('ec9ca348dd51f19a84dc5d33acfff1fba1f977300604bdac08ed46ae2c281e8c'
             '258b33b6531b1128d9804c8b608b6013423a421edcf764747042d07e79ec6df3'
             'ebc0af1ef3a6baccb013d0ccb29923895a7b22ff2d032e3bba802dc6328301ce'
-            'a312b674c68770f885a4f836e0302cef9153bc20dc1dd9ad061870f493142003'
+            '724f02de3d563c691bf3e7d97923162d34a28916d8211abb38d1a8de7d161c62'
             '640dba0d960bfeaae9ad38d2826d3f6b5d6c175a4d3e16664eefff29141faad5'
             '78f60b1d9f3a0ef8af77208feed76e303b3a13e93b80613c1e5a729004a5343c')
 validpgpkeys=('6DD4217456569BA711566AC7F06E8FDE7B45DAAC') # Eric Vidal
