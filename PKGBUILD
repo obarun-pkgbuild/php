@@ -14,7 +14,7 @@ pkgname=('php'
          'php-gd'
          'php-imap'
          'php-intl'
-         'php-mcrypt'
+         'php-sodium'
          'php-odbc'
          'php-pgsql'
          'php-pspell'
@@ -22,22 +22,22 @@ pkgname=('php'
          'php-sqlite'
          'php-tidy'
          'php-xsl')
-pkgver=7.1.11
+pkgver=7.2.0
 pkgrel=3
 arch=(x86_64)
 license=('PHP')
 url='http://www.php.net'
-makedepends=('apache' 'aspell' 'c-client' 'db' 'enchant' 'gd' 'gmp' 'icu' 'libmcrypt' 'libxslt' 'libzip' 'net-snmp'
+makedepends=('apache' 'aspell' 'c-client' 'db' 'enchant' 'gd' 'gmp' 'icu' 'libsodium' 'libxslt' 'libzip' 'net-snmp'
              'postgresql-libs' 'sqlite' 'tidy' 'unixodbc' 'curl' 'libtool' 'postfix' 'freetds' 'pcre')
 checkdepends=('procps-ng')
 source=("https://php.net/distributions/${pkgbase}-${pkgver}.tar.xz"
         'apache.patch' 'apache.conf' 'php-fpm.patch' 'php-fpm.tmpfiles' 'php.ini.patch')
-sha256sums=('074093e9d7d21afedc5106904218a80a47b854abe368d2728ed22184c884893e'
-            '258b33b6531b1128d9804c8b608b6013423a421edcf764747042d07e79ec6df3'
+sha256sums=('87572a6b924670a5d4aac276aaa4a94321936283df391d702c845ffc112db095'
+            '07acff660e194197cfbcc955c0d362d6de063e6475668f3df03bfff023af11ed'
             'ebc0af1ef3a6baccb013d0ccb29923895a7b22ff2d032e3bba802dc6328301ce'
-            '724f02de3d563c691bf3e7d97923162d34a28916d8211abb38d1a8de7d161c62'
+            'f163eb4d5573170c1db86a6bd52996a97e63c1d7820c368455231e6359a5774e'
             '640dba0d960bfeaae9ad38d2826d3f6b5d6c175a4d3e16664eefff29141faad5'
-            '78f60b1d9f3a0ef8af77208feed76e303b3a13e93b80613c1e5a729004a5343c')
+            '6725b16ecbf423ef105c2f5fd16bea6affc7c88b67c52f123cf767812d7dd5de')
 validpgpkeys=('6DD4217456569BA711566AC7F06E8FDE7B45DAAC') # Eric Vidal
 
 prepare() {
@@ -46,6 +46,8 @@ prepare() {
 	patch -p0 -i ${srcdir}/apache.patch
 	patch -p0 -i ${srcdir}/php-fpm.patch
 	patch -p0 -i ${srcdir}/php.ini.patch
+	
+	rm tests/output/stream_isatty_*.phpt
 }
 
 build() {
@@ -69,7 +71,6 @@ build() {
 		--enable-dba=shared \
 		--enable-exif=shared \
 		--enable-ftp=shared \
-		--enable-gd-native-ttf \
 		--enable-intl=shared \
 		--enable-mbstring \
 		--enable-shmop=shared \
@@ -95,7 +96,6 @@ build() {
 		--with-ldap=shared \
 		--with-ldap-sasl \
 		--with-libzip \
-		--with-mcrypt=shared \
 		--with-mhash \
 		--with-mysql-sock=/run/mysqld/mysqld.sock \
 		--with-mysqli=shared,mysqlnd \
@@ -110,6 +110,7 @@ build() {
 		--with-pspell=shared \
 		--with-readline \
 		--with-snmp=shared \
+		--with-sodium=shared \
 		--with-sqlite3=shared,/usr \
 		--with-tidy=shared \
 		--with-unixODBC=shared,/usr \
@@ -183,7 +184,7 @@ package_php() {
 	# remove static modules
 	rm -f ${pkgdir}/usr/lib/php/modules/*.a
 	# remove modules provided by sub packages
-	rm -f ${pkgdir}/usr/lib/php/modules/{enchant,gd,imap,intl,mcrypt,odbc,pdo_dblib,pdo_odbc,pgsql,pdo_pgsql,pspell,snmp,sqlite3,pdo_sqlite,tidy,xsl}.so
+	rm -f ${pkgdir}/usr/lib/php/modules/{enchant,gd,imap,intl,sodium,odbc,pdo_dblib,pdo_odbc,pgsql,pdo_pgsql,pspell,snmp,sqlite3,pdo_sqlite,tidy,xsl}.so
 	# remove empty directory
 	rmdir ${pkgdir}/usr/include/php/include
 }
@@ -270,11 +271,11 @@ package_php-intl() {
 	install -D -m755 ${srcdir}/build/modules/intl.so ${pkgdir}/usr/lib/php/modules/intl.so
 }
 
-package_php-mcrypt() {
-	pkgdesc='mcrypt module for PHP'
-	depends=('php' 'libmcrypt' 'libtool')
-
-	install -D -m755 ${srcdir}/build/modules/mcrypt.so ${pkgdir}/usr/lib/php/modules/mcrypt.so
+package_php-sodium() {
+	pkgdesc='sodium module for PHP'
+	depends=('php' 'libsodium')
+ 
+	install -D -m755 ${srcdir}/build/modules/sodium.so ${pkgdir}/usr/lib/php/modules/sodium.so
 }
 
 package_php-odbc() {
