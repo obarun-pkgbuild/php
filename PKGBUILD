@@ -23,7 +23,7 @@ pkgname=('php'
          'php-tidy'
          'php-xsl')
 pkgver=7.2.1
-pkgrel=4
+pkgrel=5
 arch=(x86_64)
 license=('PHP')
 url='http://www.php.net'
@@ -31,7 +31,7 @@ makedepends=('apache' 'aspell' 'c-client' 'db' 'enchant' 'gd' 'gmp' 'icu' 'libso
              'postgresql-libs' 'sqlite' 'tidy' 'unixodbc' 'curl' 'libtool' 'postfix' 'freetds' 'pcre')
 checkdepends=('procps-ng')
 source=("https://php.net/distributions/${pkgbase}-${pkgver}.tar.xz"
-        'apache.patch' 'apache.conf' 'php-fpm.patch' 'php-fpm.tmpfiles' 'php.ini.patch') # 'enchant-2.patch')
+        'apache.patch' 'apache.conf' 'php-fpm.patch' 'php-fpm.tmpfiles' 'php.ini.patch' 'enchant-2.patch')
 sha256sums=('6c6cf82fda6660ed963821eb0525214bb3547e8e29f447b9c15b2d8e6efd8822'
             '07acff660e194197cfbcc955c0d362d6de063e6475668f3df03bfff023af11ed'
             'ebc0af1ef3a6baccb013d0ccb29923895a7b22ff2d032e3bba802dc6328301ce'
@@ -47,7 +47,7 @@ prepare() {
 	patch -p0 -i ${srcdir}/apache.patch
 	patch -p0 -i ${srcdir}/php-fpm.patch
 	patch -p0 -i ${srcdir}/php.ini.patch
-	#patch -p1 -i ../enchant-2.patch
+	patch -p1 -i ../enchant-2.patch
 	
 	rm tests/output/stream_isatty_*.phpt
 }
