@@ -22,8 +22,8 @@ pkgname=('php'
          'php-sqlite'
          'php-tidy'
          'php-xsl')
-pkgver=7.2.1
-pkgrel=5
+pkgver=7.2.2
+pkgrel=2
 arch=(x86_64)
 license=('PHP')
 url='http://www.php.net'
@@ -32,7 +32,7 @@ makedepends=('apache' 'aspell' 'c-client' 'db' 'enchant' 'gd' 'gmp' 'icu' 'libso
 checkdepends=('procps-ng')
 source=("https://php.net/distributions/${pkgbase}-${pkgver}.tar.xz"
         'apache.patch' 'apache.conf' 'php-fpm.patch' 'php-fpm.tmpfiles' 'php.ini.patch' 'enchant-2.patch')
-sha256sums=('6c6cf82fda6660ed963821eb0525214bb3547e8e29f447b9c15b2d8e6efd8822'
+sha256sums=('47d7607d38a1d565fc43ea942c92229a7cd165f156737f210937e375b243cb11'
             '07acff660e194197cfbcc955c0d362d6de063e6475668f3df03bfff023af11ed'
             'ebc0af1ef3a6baccb013d0ccb29923895a7b22ff2d032e3bba802dc6328301ce'
             'f163eb4d5573170c1db86a6bd52996a97e63c1d7820c368455231e6359a5774e'
@@ -102,6 +102,7 @@ build() {
 		--with-mysql-sock=/run/mysqld/mysqld.sock \
 		--with-mysqli=shared,mysqlnd \
 		--with-openssl \
+		--with-passwd-argon2 \
 		--with-pcre-regex=/usr \
 		--with-pdo-dblib=shared,/usr \
 		--with-pdo-mysql=shared,mysqlnd \
@@ -172,7 +173,7 @@ check() {
 
 package_php() {
 	pkgdesc='A general-purpose scripting language that is especially suited to web development'
-	depends=('libxml2' 'curl' 'libzip' 'pcre')
+	depends=('libxml2' 'curl' 'libzip' 'pcre' 'argon2')
 	replaces=('php-ldap')
 	conflicts=('php-ldap')
 	provides=("php-ldap=${pkgver}")
