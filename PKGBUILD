@@ -22,7 +22,7 @@ pkgname=('php'
          'php-sqlite'
          'php-tidy'
          'php-xsl')
-pkgver=7.2.2
+pkgver=7.2.3
 pkgrel=2
 arch=(x86_64)
 license=('PHP')
@@ -32,7 +32,7 @@ makedepends=('apache' 'aspell' 'c-client' 'db' 'enchant' 'gd' 'gmp' 'icu' 'libso
 checkdepends=('procps-ng')
 source=("https://php.net/distributions/${pkgbase}-${pkgver}.tar.xz"
         'apache.patch' 'apache.conf' 'php-fpm.patch' 'php-fpm.tmpfiles' 'php.ini.patch' 'enchant-2.patch')
-sha256sums=('47d7607d38a1d565fc43ea942c92229a7cd165f156737f210937e375b243cb11'
+sha256sums=('b3a94f1b562f413c0b96f54bc309706d83b29ac65d9b172bc7ed9fb40a5e651f'
             '07acff660e194197cfbcc955c0d362d6de063e6475668f3df03bfff023af11ed'
             'ebc0af1ef3a6baccb013d0ccb29923895a7b22ff2d032e3bba802dc6328301ce'
             'f163eb4d5573170c1db86a6bd52996a97e63c1d7820c368455231e6359a5774e'
