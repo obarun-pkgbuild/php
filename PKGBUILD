@@ -22,20 +22,20 @@ pkgname=('php'
          'php-sqlite'
          'php-tidy'
          'php-xsl')
-pkgver=7.2.3
+pkgver=7.2.4
 pkgrel=2
 arch=(x86_64)
 license=('PHP')
 url='http://www.php.net'
 makedepends=('apache' 'aspell' 'c-client' 'db' 'enchant' 'gd' 'gmp' 'icu' 'libsodium' 'libxslt' 'libzip' 'net-snmp'
-             'postgresql-libs' 'sqlite' 'tidy' 'unixodbc' 'curl' 'libtool' 'postfix' 'freetds' 'pcre')
+             'postgresql-libs' 'sqlite' 'tidy' 'unixodbc' 'curl' 'libtool' 'postfix' 'freetds' 'pcre' 'argon2')
 checkdepends=('procps-ng')
 source=("https://php.net/distributions/${pkgbase}-${pkgver}.tar.xz"
         'apache.patch' 'apache.conf' 'php-fpm.patch' 'php-fpm.tmpfiles' 'php.ini.patch' 'enchant-2.patch')
-sha256sums=('b3a94f1b562f413c0b96f54bc309706d83b29ac65d9b172bc7ed9fb40a5e651f'
+sha256sums=('7916b1bd148ddfd46d7f8f9a517d4b09cd8a8ad9248734e7c8dd91ef17057a88'
             '07acff660e194197cfbcc955c0d362d6de063e6475668f3df03bfff023af11ed'
             'ebc0af1ef3a6baccb013d0ccb29923895a7b22ff2d032e3bba802dc6328301ce'
-            'f163eb4d5573170c1db86a6bd52996a97e63c1d7820c368455231e6359a5774e'
+            'e00d904b6c43772a9c3068ad49f90c6f727dfa97b5764db694a37cb811f455aa'
             '640dba0d960bfeaae9ad38d2826d3f6b5d6c175a4d3e16664eefff29141faad5'
             '6725b16ecbf423ef105c2f5fd16bea6affc7c88b67c52f123cf767812d7dd5de'
             'f75a656f97af767e44e6c3cfeab0e8fe3f99c38a8ddcd6081319ca2ad7950bfd')
@@ -53,6 +53,9 @@ prepare() {
 }
 
 build() {
+	# http://site.icu-project.org/download/61#TOC-Migration-Issues
+	CPPFLAGS+=' -DU_USING_ICU_NAMESPACE=1'
+
 	local _phpconfig="--srcdir=../${pkgbase}-${pkgver} \
 		--config-cache \
 		--prefix=/usr \
@@ -102,7 +105,7 @@ build() {
 		--with-mysql-sock=/run/mysqld/mysqld.sock \
 		--with-mysqli=shared,mysqlnd \
 		--with-openssl \
-		--with-passwd-argon2 \
+		--with-password-argon2 \
 		--with-pcre-regex=/usr \
 		--with-pdo-dblib=shared,/usr \
 		--with-pdo-mysql=shared,mysqlnd \
