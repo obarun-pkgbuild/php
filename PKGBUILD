@@ -22,22 +22,22 @@ pkgname=('php'
          'php-sqlite'
          'php-tidy'
          'php-xsl')
-pkgver=7.2.4
+pkgver=7.2.5
 pkgrel=2
 arch=(x86_64)
 license=('PHP')
 url='http://www.php.net'
 makedepends=('apache' 'aspell' 'c-client' 'db' 'enchant' 'gd' 'gmp' 'icu' 'libsodium' 'libxslt' 'libzip' 'net-snmp'
-             'postgresql-libs' 'sqlite' 'tidy' 'unixodbc' 'curl' 'libtool' 'postfix' 'freetds' 'pcre' 'argon2')
+             'postgresql-libs' 'sqlite' 'tidy' 'unixodbc' 'curl' 'libtool' 'postfix' 'freetds' 'pcre' 'argon2' 'libnsl')
 checkdepends=('procps-ng')
 source=("https://php.net/distributions/${pkgbase}-${pkgver}.tar.xz"
         'apache.patch' 'apache.conf' 'php-fpm.patch' 'php-fpm.tmpfiles' 'php.ini.patch' 'enchant-2.patch')
-sha256sums=('7916b1bd148ddfd46d7f8f9a517d4b09cd8a8ad9248734e7c8dd91ef17057a88'
-            '07acff660e194197cfbcc955c0d362d6de063e6475668f3df03bfff023af11ed'
+sha256sums=('af70a33b3f7a51510467199b39af151333fbbe4cc21923bad9c7cf64268cddb2'
+            'bd26c9be85e30334369d9d12e623842e1c0552f424d857641318883dfe1f83a3'
             'ebc0af1ef3a6baccb013d0ccb29923895a7b22ff2d032e3bba802dc6328301ce'
             'e00d904b6c43772a9c3068ad49f90c6f727dfa97b5764db694a37cb811f455aa'
             '640dba0d960bfeaae9ad38d2826d3f6b5d6c175a4d3e16664eefff29141faad5'
-            '6725b16ecbf423ef105c2f5fd16bea6affc7c88b67c52f123cf767812d7dd5de'
+            'c5acfdfa11cc6efd53d89737b2713f52acc9235ce94f8a0a199038fb0478f936'
             'f75a656f97af767e44e6c3cfeab0e8fe3f99c38a8ddcd6081319ca2ad7950bfd')
 validpgpkeys=('6DD4217456569BA711566AC7F06E8FDE7B45DAAC') # Eric Vidal
 
@@ -205,7 +205,7 @@ package_php-cgi() {
 
 package_php-apache() {
 	pkgdesc='Apache SAPI for PHP'
-	depends=('php' 'apache')
+	depends=('php' 'apache' 'libnsl')
 	backup=('etc/httpd/conf/extra/php7_module.conf')
 
 	install -D -m755 ${srcdir}/build-apache/libs/libphp7.so ${pkgdir}/usr/lib/httpd/modules/libphp7.so
@@ -226,7 +226,7 @@ package_php-fpm() {
 
 package_php-embed() {
 	pkgdesc='Embedded PHP SAPI library'
-	depends=('php')
+	depends=('php' 'libnsl')
 	options=('!emptydirs')
 
 	cd ${srcdir}/build
