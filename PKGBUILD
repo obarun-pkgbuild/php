@@ -23,7 +23,7 @@ pkgname=('php'
          'php-tidy'
          'php-xsl')
 pkgver=7.2.5
-pkgrel=2
+pkgrel=3
 arch=(x86_64)
 license=('PHP')
 url='http://www.php.net'
@@ -31,14 +31,16 @@ makedepends=('apache' 'aspell' 'c-client' 'db' 'enchant' 'gd' 'gmp' 'icu' 'libso
              'postgresql-libs' 'sqlite' 'tidy' 'unixodbc' 'curl' 'libtool' 'postfix' 'freetds' 'pcre' 'argon2' 'libnsl')
 checkdepends=('procps-ng')
 source=("https://php.net/distributions/${pkgbase}-${pkgver}.tar.xz"
-        'apache.patch' 'apache.conf' 'php-fpm.patch' 'php-fpm.tmpfiles' 'php.ini.patch' 'enchant-2.patch')
+        'apache.patch' 'apache.conf' 'php-fpm.patch' 'php-fpm.tmpfiles' 'php.ini.patch'
+        'enchant-2.patch' 'freetype.patch')
 sha256sums=('af70a33b3f7a51510467199b39af151333fbbe4cc21923bad9c7cf64268cddb2'
-            'bd26c9be85e30334369d9d12e623842e1c0552f424d857641318883dfe1f83a3'
+            'd4327f14cc723f47baa7573c67e8340c624c284ff5f84bb80f2c877f6a19dfcb'
             'ebc0af1ef3a6baccb013d0ccb29923895a7b22ff2d032e3bba802dc6328301ce'
-            'e00d904b6c43772a9c3068ad49f90c6f727dfa97b5764db694a37cb811f455aa'
+            '104beb0c1e901278dcb50079dac1c7bbb8c9df88326746ddeedfd7b47684cc1d'
             '640dba0d960bfeaae9ad38d2826d3f6b5d6c175a4d3e16664eefff29141faad5'
             'c5acfdfa11cc6efd53d89737b2713f52acc9235ce94f8a0a199038fb0478f936'
-            'f75a656f97af767e44e6c3cfeab0e8fe3f99c38a8ddcd6081319ca2ad7950bfd')
+            '3992491eebaf5b31f6b00095a7276d11682f9a8aaff473bfb25afbdcfa6eba32'
+            '07c4648669dc05afc3c1ad5a4739768079c423b817eabf5296ca3d1ea5ffd163')
 validpgpkeys=('6DD4217456569BA711566AC7F06E8FDE7B45DAAC') # Eric Vidal
 
 prepare() {
@@ -47,7 +49,9 @@ prepare() {
 	patch -p0 -i ${srcdir}/apache.patch
 	patch -p0 -i ${srcdir}/php-fpm.patch
 	patch -p0 -i ${srcdir}/php.ini.patch
-	patch -p1 -i ../enchant-2.patch
+	patch -p1 -i ${srcdir}/enchant-2.patch
+	patch -p1 -i ${srcdir}/freetype.patch
+	autoconf
 	
 	rm tests/output/stream_isatty_*.phpt
 }

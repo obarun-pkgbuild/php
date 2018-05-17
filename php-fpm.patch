@@ -61,14 +61,5 @@
  
  ; Redirect worker stdout and stderr into main error log. If not set, stdout and
  ; stderr will be redirected to /dev/null according to FastCGI specs.
---- sapi/fpm/php-fpm.service.in.orig
-+++ sapi/fpm/php-fpm.service.in
-@@ -8,7 +8,7 @@
- 
- [Service]
- Type=@php_fpm_systemd@
--PIDFile=@EXPANDED_LOCALSTATEDIR@/run/php-fpm.pid
-+PIDFile=/run/php-fpm/php-fpm.pid
- ExecStart=@EXPANDED_SBINDIR@/php-fpm --nodaemonize --fpm-config @EXPANDED_SYSCONFDIR@/php-fpm.conf
- ExecReload=/bin/kill -USR2 $MAINPID
- PrivateTmp=true
+
+
